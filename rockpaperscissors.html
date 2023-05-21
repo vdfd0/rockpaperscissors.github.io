@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rock Paper Scissors</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        .choice-btn {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+        }
+        
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rock Paper Scissors</h1>
+    <p>Make your choice:</p>
+    <button class="choice-btn" id="rock">Rock</button>
+    <button class="choice-btn" id="paper">Paper</button>
+    <button class="choice-btn" id="scissors">Scissors</button>
+    <div id="result"></div>
+    
+    <script>
+        // Game logic
+        const choices = ["rock", "paper", "scissors"];
+
+        function computerPlay() {
+            const randomIndex = Math.floor(Math.random() * choices.length);
+            return choices[randomIndex];
+        }
+
+        function playRound(playerSelection, computerSelection) {
+            playerSelection = playerSelection.toLowerCase();
+            computerSelection = computerSelection.toLowerCase();
+
+            if (playerSelection === computerSelection) {
+                return "It's a tie!";
+            } else if (
+                (playerSelection === "rock" && computerSelection === "scissors") ||
+                (playerSelection === "paper" && computerSelection === "rock") ||
+                (playerSelection === "scissors" && computerSelection === "paper")
+            ) {
+                return "You win!";
+            } else {
+                return "You lose!";
+            }
+        }
+
+        function displayResult(result) {
+            const resultDiv = document.getElementById("result");
+            resultDiv.textContent = result;
+
+            if (result === "You win!" || result === "You lose!") {
+                setTimeout(() => {
+                    location.reload();
+                }, 550);
+            }
+        }
+
+        // Button event listeners
+        const buttons = document.querySelectorAll(".choice-btn");
+        buttons.forEach((button) => {
+            button.addEventListener("click", () => {
+                const playerSelection = button.id;
+                const computerSelection = computerPlay();
+                const result = playRound(playerSelection, computerSelection);
+                displayResult(result);
+            });
+        });
+    </script>
+</body>
+</html>
